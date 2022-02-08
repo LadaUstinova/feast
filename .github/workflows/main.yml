@@ -1,15 +1,11 @@
-project: in_bug
-registry: s3://rnd-feast/registry.db
-#registry: data/registry.db
-provider: local
-offline_store:
-    type: feast_postgres.PostgreSQLOfflineStore # MUST be this value
-    host: 84.252.138.121
-    port: 5432              # Optional, default it 5432
-    database: postgres
-    db_schema: public
-    user: postgres
-    password: mysecretpassword
-online_store:
-  type: redis
-  connection_string: "84.252.138.121:6379" 
+name: Applying features
+on: [push]
+jobs:
+  Feast-apply:
+    runs-on: self-hosted
+    steps:
+      - run: echo "Start applying features into Feast"
+      - name: Check out repository code
+        uses: actions/checkout@v1
+      - run: feast apply
+      - run: echo "This job's status is ${{ job.status }}."
